@@ -1,8 +1,7 @@
 # Herz
 
-A Kotlin / Jetpack Compose wellness journal for Android 7.0+ (API 24).
-Tracks **self-reported mood and energy**, with an optional daily reflection.
-It does not measure heart rate or use health sensors.
+A simple Kotlin / Jetpack Compose wellness journal for Android 7.0+ (API 24).
+Tracks self-reported mood and energy, with an optional daily reflection.
 
 ## Run
 
