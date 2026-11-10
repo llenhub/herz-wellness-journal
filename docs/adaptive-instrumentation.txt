@@ -1,0 +1,10 @@
+
+com.example.herz.AdaptiveLayoutTest:.
+com.example.herz.CheckInStoreTest:.
+com.example.herz.HerzFlowTest:.
+
+Time: 130.222
+
+OK (3 tests)
+
+
