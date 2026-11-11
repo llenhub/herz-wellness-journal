@@ -32,11 +32,10 @@ fun ThemeSelectionScreen(dark: Boolean, onTheme: (Boolean) -> Unit, onContinue: 
     val sky by animateColorAsState(if(dark) Color(0xFF283B42) else Color(0xFFE7ECDD), tween(850), label = "sky")
     val cloud by animateColorAsState(if(dark) Color(0xFF55646B) else Color(0xFFFFFCF0), tween(850), label = "clouds")
     OnboardingLayout(content = {
-        BrandHeader { Eyebrow("01 / Make it yours") }
         Spacer(Modifier.height(20.dp))
         Heading("What feels more\nlike you?")
         Spacer(Modifier.height(16.dp))
-        Text("A little sunshine, or a little moonlight.\nFind your kind of calm.", textAlign = TextAlign.Center,
+        Text("A little sunshine, or a little moonlight?", textAlign = TextAlign.Center,
             color = MaterialTheme.colorScheme.onSurfaceVariant, lineHeight = 25.sp)
         Spacer(Modifier.height(24.dp))
         BoxWithConstraints(Modifier.fillMaxWidth()) {
@@ -71,7 +70,7 @@ fun ThemeSelectionScreen(dark: Boolean, onTheme: (Boolean) -> Unit, onContinue: 
         }
         }
         Spacer(Modifier.height(24.dp))
-        Text(if (dark) "Moonlit & mellow" else "Sunny & grounded", fontFamily = androidx.compose.ui.text.font.FontFamily.Serif, fontSize = 24.sp)
+        Text(if (dark) "Moonlight" else "Sunshine", fontFamily = androidx.compose.ui.text.font.FontFamily.Serif, fontSize = 24.sp)
         Text("Tap the sky to switch", Modifier.padding(top=8.dp), color = MaterialTheme.colorScheme.onSurfaceVariant, fontSize = 13.sp)
         Spacer(Modifier.height(24.dp))
       }, footer = {

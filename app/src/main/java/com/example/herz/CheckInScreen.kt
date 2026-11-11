@@ -77,7 +77,7 @@ fun CheckInScreen(existing: CheckIn?, saving: Boolean, onBack: () -> Unit, onSav
                 supportingText = { Text("${reflection.length} / 2000") })
         }
         PrimaryButton(if(saving) "Saving…" else "Save my check-in", mood in 1..5 && !saving) { onSave(mood, energy.roundToInt(), reflection) }
-        Text(if(mood == 0) "Choose a mood to save your check-in." else if(existing != null) "Saving will update today’s check-in." else "Just for you. Saved on this device.",
+        Text(if(mood == 0) "Choose a mood to save your check-in." else if(existing != null) "Saving will update today’s check-in." else "Click the button above to record your Herz.",
             color = colors.onSurfaceVariant, fontSize = 12.sp, modifier = Modifier.align(Alignment.CenterHorizontally))
         Spacer(Modifier.height(12.dp))
     }

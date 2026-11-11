@@ -19,7 +19,6 @@ fun WelcomeScreen(onStart: () -> Unit) {
         val compact = maxHeight < 740.dp
         val artSize = minOf(if (compact) 180.dp else 270.dp, (maxWidth - 56.dp).coerceAtLeast(0.dp))
         OnboardingLayout(content = {
-                BrandHeader { Eyebrow("A moment for you") }
                 Spacer(Modifier.height(if(compact) 12.dp else 36.dp))
                 Box(Modifier.size(artSize).background(MaterialTheme.colorScheme.primaryContainer.copy(alpha = .45f), CircleShape),
                     contentAlignment = Alignment.Center) {
@@ -40,8 +39,7 @@ fun WelcomeScreen(onStart: () -> Unit) {
                 Spacer(Modifier.height(20.dp))
             }, footer = {
             PrimaryButton("Get Started", onClick = onStart)
-            Text("Your feelings. Your pace. Your space.", Modifier.padding(top = 12.dp), fontSize = 12.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
-            Text("A mood & energy journal · No heart-rate measurements", Modifier.padding(top = 14.dp, bottom = 20.dp), fontSize = 10.sp,
+            Text("A mood & energy journal made for you.", Modifier.padding(top = 14.dp, bottom = 20.dp), fontSize = 10.sp,
                 textAlign = TextAlign.Center, color = MaterialTheme.colorScheme.onSurfaceVariant)
         })
     }

@@ -36,7 +36,7 @@ fun weeklyEntries(entries: List<CheckIn>, today: String): List<CheckIn> {
     return entries.filter { it.date in dates }
 }
 
-/** One self-reported check-in per local calendar day. No network or health sensors. */
+/** One self-reported check-in per local calendar day. */
 class CheckInStore(context: Context) : SQLiteOpenHelper(context, "herz.db", null, 1) {
     private val preferences = context.getSharedPreferences("herz_settings", Context.MODE_PRIVATE)
     val onboarded: Boolean get() = preferences.getBoolean("onboarded", false)
