@@ -82,7 +82,13 @@ fun HerzApp() {
                         "checkin" -> if (loaded) CheckInScreen(entries.firstOrNull { it.date == today }, saving,
                             onBack = { screen = if (store.onboarded) "home" else "theme" },
                             onSave = model::save) else CircularProgressIndicator(Modifier.align(Alignment.Center))
-                        "calendar" -> CalendarScreen(entries, today) { screen = "checkin" }
+                        "calendar" -> CalendarScreen(
+                            entries = entries,
+                            today = today,
+                            dark = dark,
+                            onTheme = { dark = !dark; store.setTheme(dark) },
+                            onCheckIn = { screen = "checkin" }
+                        )
                         else -> if (loaded) DashboardScreen(entries, today, dark, saved,
                             onTheme = { dark = !dark; store.setTheme(dark) },
                             onCheckIn = { saved = false; screen = "checkin" })

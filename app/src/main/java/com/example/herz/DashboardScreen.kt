@@ -30,10 +30,7 @@ fun DashboardScreen(entries: List<CheckIn>, today: String, dark: Boolean, saved:
     Column(Modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(horizontal = 24.dp),
         verticalArrangement = Arrangement.spacedBy(24.dp)) {
         BrandHeader {
-            IconButton(onTheme, Modifier.background(colors.surfaceVariant, CircleShape)
-                .semantics { contentDescription = if(dark) "Switch to light theme" else "Switch to dark theme" }) {
-                AppIcon(if(dark) "sun" else "moon", 22.dp)
-            }
+            ThemeToggle(dark = dark, onClick = onTheme)
         }
         Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
             Eyebrow(Days.label(today))

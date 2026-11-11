@@ -31,6 +31,7 @@ class HerzFlowTest {
         compose.onNodeWithText("Save my check-in").performScrollTo().performClick()
         compose.waitUntil(10_000) { compose.onAllNodesWithText("Feeling great").fetchSemanticsNodes().isNotEmpty() }
         compose.onNodeWithText("Calendar", useUnmergedTree = true).performClick()
+        compose.onNodeWithContentDescription("Switch to light theme").assertExists()
         compose.onNodeWithText("A walk helped me reset.").performScrollTo().assertIsDisplayed()
         compose.onNodeWithText("Energy  4 / 5").performScrollTo().assertIsDisplayed()
         CheckInStore(context).use { store ->

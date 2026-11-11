@@ -65,6 +65,24 @@ fun BrandHeader(trailing: @Composable () -> Unit = {}) {
 }
 
 @Composable
+fun ThemeToggle(dark: Boolean, onClick: () -> Unit) {
+    IconButton(
+        onClick = onClick,
+        modifier = Modifier
+            .background(MaterialTheme.colorScheme.surfaceVariant, CircleShape)
+            .semantics {
+                contentDescription = if (dark) {
+                    "Switch to light theme"
+                } else {
+                    "Switch to dark theme"
+                }
+            }
+    ) {
+        AppIcon(if (dark) "sun" else "moon", 22.dp)
+    }
+}
+
+@Composable
 fun SoftCard(modifier: Modifier = Modifier, color: Color = MaterialTheme.colorScheme.surface,
              content: @Composable ColumnScope.() -> Unit) {
     Column(modifier.fillMaxWidth().background(color, RoundedCornerShape(26.dp))

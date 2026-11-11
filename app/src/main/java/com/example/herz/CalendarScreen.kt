@@ -19,7 +19,13 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 @Composable
-fun CalendarScreen(entries: List<CheckIn>, today: String, onCheckIn: () -> Unit) {
+fun CalendarScreen(
+    entries: List<CheckIn>,
+    today: String,
+    dark: Boolean,
+    onTheme: () -> Unit,
+    onCheckIn: () -> Unit
+) {
     var month by rememberSaveable { mutableStateOf(Days.month(today)) }
     var selected by rememberSaveable { mutableStateOf(today) }
     val colors = MaterialTheme.colorScheme
@@ -27,7 +33,9 @@ fun CalendarScreen(entries: List<CheckIn>, today: String, onCheckIn: () -> Unit)
     val entry = lookup[selected]
     Column(Modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(horizontal=24.dp),
         verticalArrangement=Arrangement.spacedBy(24.dp)) {
-        BrandHeader { Eyebrow("One day at a time") }
+        BrandHeader {
+            ThemeToggle(dark = dark, onClick = onTheme)
+        }
         Column(verticalArrangement=Arrangement.spacedBy(10.dp)) {
             Heading("Your days,\nin color.")
             Text("Every feeling is part of your story.", color=colors.onSurfaceVariant)
