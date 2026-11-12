@@ -40,13 +40,17 @@ class HerzViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
-    fun save(mood: Int, energy: Int, reflection: String) {
+    fun save(date: String, mood: Int, energy: Int, reflection: String) {
+        if (date > Days.key()) {
+            error = "You cannot check in for a future day."
+            return
+        }
         if (saving) return
         saving = true
         scope.launch {
             try {
                 entries = withContext(Dispatchers.IO) {
-                    store.save(CheckIn(Days.key(), mood, energy, reflection.trim()))
+                    store.save(CheckIn(date, mood, energy, reflection.trim()))
                     store.completeSetup()
                     store.all()
                 }

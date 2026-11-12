@@ -27,6 +27,8 @@ fun HerzApp() {
     val loaded = model.loaded
     val saving = model.saving
     var saved by rememberSaveable { mutableStateOf(false) }
+    var checkInDate by rememberSaveable { mutableStateOf(Days.key()) }
+    var checkInReturn by rememberSaveable { mutableStateOf("home") }
     var consumedSave by rememberSaveable { mutableIntStateOf(0) }
     val screenState = rememberSaveableStateHolder()
     val view = LocalView.current
@@ -54,14 +56,14 @@ fun HerzApp() {
             screenState.removeState("checkin")
             today = Days.key()
             saved = true
-            screen = "home"
+            screen = checkInReturn
         }
     }
     HerzTheme(dark) {
         val colors = MaterialTheme.colorScheme
         Surface(Modifier.fillMaxSize().windowInsetsPadding(WindowInsets.displayCutout.only(WindowInsetsSides.Horizontal)), color = colors.background) {
             BackHandler(enabled = screen != "home" && screen != "welcome") {
-                if (!saving) screen = when (screen) { "theme" -> "welcome"; "checkin" -> if (store.onboarded) "home" else "theme"; else -> "home" }
+                if (!saving) screen = when (screen) { "theme" -> "welcome"; "checkin" -> if (store.onboarded) checkInReturn else "theme"; else -> "home" }
             }
             Scaffold(containerColor = colors.background, bottomBar = {
                 if (screen == "home" || screen == "calendar") {
@@ -78,20 +80,35 @@ fun HerzApp() {
                    screenState.SaveableStateProvider(screen) {
                     when (screen) {
                         "welcome" -> WelcomeScreen { screen = "theme" }
-                        "theme" -> ThemeSelectionScreen(dark, { dark = it; store.setTheme(it) }) { screen = "checkin" }
-                        "checkin" -> if (loaded) CheckInScreen(entries.firstOrNull { it.date == today }, saving,
-                            onBack = { screen = if (store.onboarded) "home" else "theme" },
-                            onSave = model::save) else CircularProgressIndicator(Modifier.align(Alignment.Center))
+                        "theme" -> ThemeSelectionScreen(dark, { dark = it; store.setTheme(it) }) {
+                            checkInDate = today
+                            checkInReturn = "home"
+                            screen = "checkin"
+                        }
+                        "checkin" -> if (loaded) CheckInScreen(checkInDate, entries.firstOrNull { it.date == checkInDate }, saving,
+                            onBack = { screen = if (store.onboarded) checkInReturn else "theme" },
+                            onSave = { mood, energy, reflection -> model.save(checkInDate, mood, energy, reflection) }) else CircularProgressIndicator(Modifier.align(Alignment.Center))
                         "calendar" -> CalendarScreen(
                             entries = entries,
                             today = today,
                             dark = dark,
                             onTheme = { dark = !dark; store.setTheme(dark) },
-                            onCheckIn = { screen = "checkin" }
+                            onCheckIn = { date ->
+                                checkInDate = date
+                                checkInReturn = "calendar"
+                                screenState.removeState("checkin")
+                                screen = "checkin"
+                            }
                         )
                         else -> if (loaded) DashboardScreen(entries, today, dark, saved,
                             onTheme = { dark = !dark; store.setTheme(dark) },
-                            onCheckIn = { saved = false; screen = "checkin" })
+                            onCheckIn = {
+                                saved = false
+                                checkInDate = today
+                                checkInReturn = "home"
+                                screenState.removeState("checkin")
+                                screen = "checkin"
+                            })
                         else CircularProgressIndicator(Modifier.align(Alignment.Center))
                     }
                    }

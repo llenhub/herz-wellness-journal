@@ -22,7 +22,7 @@ import androidx.compose.ui.unit.sp
 import kotlin.math.roundToInt
 
 @Composable
-fun CheckInScreen(existing: CheckIn?, saving: Boolean, onBack: () -> Unit, onSave: (Int, Int, String) -> Unit) {
+fun CheckInScreen(date: String, existing: CheckIn?, saving: Boolean, onBack: () -> Unit, onSave: (Int, Int, String) -> Unit) {
     var mood by rememberSaveable { mutableIntStateOf(existing?.mood ?: 0) }
     var energy by rememberSaveable { mutableFloatStateOf(existing?.energy?.toFloat() ?: 3f) }
     var reflection by rememberSaveable { mutableStateOf(existing?.reflection ?: "") }
@@ -34,8 +34,8 @@ fun CheckInScreen(existing: CheckIn?, saving: Boolean, onBack: () -> Unit, onSav
             Spacer(Modifier.weight(1f)); Eyebrow("Your daily pause")
         }
         Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
-            Eyebrow(Days.label(Days.key()))
-            Heading("How’s your\nHerz today?")
+            Eyebrow(Days.label(date))
+            Heading(if(date == Days.key()) "How’s your\nHerz today?" else "How was your\nHerz that day?")
             Text("There’s no right or wrong way to feel.", color = colors.onSurfaceVariant)
         }
         Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
@@ -77,7 +77,7 @@ fun CheckInScreen(existing: CheckIn?, saving: Boolean, onBack: () -> Unit, onSav
                 supportingText = { Text("${reflection.length} / 2000") })
         }
         PrimaryButton(if(saving) "Saving…" else "Save my check-in", mood in 1..5 && !saving) { onSave(mood, energy.roundToInt(), reflection) }
-        Text(if(mood == 0) "Choose a mood to save your check-in." else if(existing != null) "Saving will update today’s check-in." else "Click the button above to record your Herz.",
+        Text(if(mood == 0) "Choose a mood to save your check-in." else if(existing != null) "Saving will update this day’s check-in." else "Click the button above to record your Herz.",
             color = colors.onSurfaceVariant, fontSize = 12.sp, modifier = Modifier.align(Alignment.CenterHorizontally))
         Spacer(Modifier.height(12.dp))
     }

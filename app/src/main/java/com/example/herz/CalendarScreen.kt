@@ -24,7 +24,7 @@ fun CalendarScreen(
     today: String,
     dark: Boolean,
     onTheme: () -> Unit,
-    onCheckIn: () -> Unit
+    onCheckIn: (String) -> Unit
 ) {
     var month by rememberSaveable { mutableStateOf(Days.month(today)) }
     var selected by rememberSaveable { mutableStateOf(today) }
@@ -104,11 +104,11 @@ fun CalendarScreen(
             HorizontalDivider(color=colors.outlineVariant)
             Eyebrow("Your reflection")
             Text(entry.reflection.ifBlank { "A moment felt, even without words." },lineHeight=24.sp,color=colors.onSurfaceVariant)
-            if(selected==today) TextButton(onClick=onCheckIn) { Text("Edit today’s check-in") }
+            TextButton(onClick={ onCheckIn(selected) }) { Text(if(selected==today) "Edit today’s check-in" else "Edit this check-in") }
         } else SoftCard {
             Text("A quiet page",fontFamily=FontFamily.Serif,fontSize=24.sp)
-            Text(if(selected==today) "There’s a little space here for how you feel today." else "No check-in on this day. It’s okay to leave a little space.",color=colors.onSurfaceVariant,lineHeight=24.sp)
-            if(selected==today) PrimaryButton("Check in with yourself",onClick=onCheckIn)
+            Text(if(selected==today) "There’s a little space here for how you feel today." else "Missed this day? You can add how you felt.",color=colors.onSurfaceVariant,lineHeight=24.sp)
+            PrimaryButton(if(selected==today) "Check in with yourself" else "Add a check-in for this day", onClick={ onCheckIn(selected) })
         }
         Spacer(Modifier.height(8.dp))
     }
